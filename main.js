@@ -12,7 +12,7 @@ function main() {
 	p2 = new PLAYER(2,50,90,-1)
 	p2.state = p1.NEW2;
 	objects.new(p1);
-	objects.new(p2);
+	//objects.new(p2);
 	update();
 }
 
