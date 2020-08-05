@@ -1,12 +1,13 @@
 var UPDATE_DELAY = 100;
 var screen = new Screen(1,2);
-var objects = new ObjectContainer(screen,["player","map"]);
-objects.isDrawCollision = true;
+var objects = new ObjectContainer(screen,["player"]);
+var camera = new CAMERA(objects);
+var map = new MAP(objects);
+var controlPad = new ControlPad(objects);
 function main() {
 	screen.init();
-	objects.new(new MAP(ID.map,MAP.NEW,0,0,1));
 	objects.new(new PLAYER(ID.player,PLAYER.NEW,10,10,-1));
-	new ControlPad(objects);
+	objects.isDrawCollision = true;
 	update();
 }
 function update() {
