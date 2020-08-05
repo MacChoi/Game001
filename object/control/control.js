@@ -28,44 +28,52 @@ class CONTROL extends Frame {
         image : [1],
         x : [0],
         y : [0],
+        alpha : [0.5],
     }
     static LEFT = {
         image : [1],
         x : [0],
         y : [0],
         rotate :[270],
+        alpha : [0.5],
     }
     static RIGHT = {
         image : [1],
         x : [0],
         y : [0],
         rotate :[90],
+        alpha : [0.5],
     }
     static DOWN = {
         image : [1],
         x : [0],
         y : [0],
         rotate :[180],
+        alpha : [0.5],
     }
     static X = {
         image : [2],
         x : [0],
         y : [0],
+        alpha : [0.5],
     }
     static Y = {
         image : [3],
         x : [0],
         y : [0],
+        alpha : [0.5],
     }
     static A = {
         image : [4],
         x : [0],
         y : [0],
+        alpha : [0.5],
     }
     static B = {
         image : [5],
         x : [0],
         y : [0],
+        alpha : [0.5],
     }
     constructor(id,state,x,y,flip){
         super(id,state,x,y,image_control);

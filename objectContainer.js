@@ -127,6 +127,9 @@ class Frame{
         //확대
         context.scale(this.scale,this.scale);
 
+        //Alpha
+        if(this.state.alpha)context.globalAlpha = this.state.alpha[this.idx_frame];
+        
         //회전
         context.translate(this.centerX,this.centerY);
         context.rotate(this.radToDag(this.rotate));
@@ -147,6 +150,8 @@ class Frame{
         else
             context.drawImage(this.image,this.x,this.y);
         context.restore();
+
+        context.globalAlpha = 1.0;
         this.idx_frame ++;
     }
 
