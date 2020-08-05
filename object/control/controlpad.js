@@ -78,9 +78,11 @@ class CONTROL extends Frame {
     constructor(id,state,x,y,flip){
         super(id,state,x,y,image_control);
         this.collision = new Collision();
+        this.collisionImageTmp =new Image(10,10);
+        this.isClick = false;
     }
     onKey = function(e) { 
-        console.log("e.onKey: ID.CONTROL " + e.keyCode);
+        //console.log("e.onKey: ID.CONTROL " + e.keyCode);
         switch (e.keyCode){
             case KEY.LEFT:
                 if(e.state == CONTROL.LEFT)this.lightup = 2;
@@ -108,21 +110,31 @@ class CONTROL extends Frame {
             break;          
         }
     }
-
     onMousedown = function(mouseEvent) {
      //  if(this.state  != CONTROL.B)return;
         var mouseFrame = new Frame();
         mouseFrame.x=mouseEvent.offsetX / screen.scale;
         mouseFrame.y=mouseEvent.offsetY / screen.scale;
-        mouseFrame.image =new Image(10,10);
+        mouseFrame.image = this.collisionImageTmp;
 
-        console.log(this.id , this.x ,this.y , this.image.width , this.image.height);
-        console.log(mouseFrame.x,mouseFrame.y , mouseFrame.image.width , mouseFrame.image.height);
+        // console.log(this.id , this.x ,this.y , this.image.width , this.image.height);
+        // console.log(mouseFrame.x,mouseFrame.y , mouseFrame.image.width , mouseFrame.image.height);
         
         if(this.collision.isCheckRect(this,mouseFrame)){
-            console.log(this.state);
-            objects.onKey(this.getKeyboardEvent(this.id))
+            //console.log(this.state);
+            this.isClick = this.getKeyboardEvent(this.id);
+            objects.onKey(this.isClick);
         } 
+    }
+
+    onMouseup = function(mouseEvent) {
+        this.isClick = null;
+    }
+
+    onDraw  = function(e) {
+        if(this.isClick){
+            objects.onKey(this.isClick);
+        }
     }
 
     getKeyboardEvent(keycode){

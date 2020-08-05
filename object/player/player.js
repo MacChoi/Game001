@@ -67,7 +67,6 @@ class PLAYER extends Frame {
             case this.NEW:
             break;
             case this.UP:
-
             case this.DOWN:
             case this.LEFT:
                 this.setState(PLAYER.NEW,this.x,this.y,this.flip);

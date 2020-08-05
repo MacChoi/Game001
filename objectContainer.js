@@ -6,7 +6,7 @@ class ObjectContainer{
         this.context = screen.bufferContext;
         this.screen.canvas.addEventListener("mousemove", this.onMousemove, false);
         this.screen.canvas.addEventListener("mousedown", this.onMousedown, false);
-        this.screen.canvas.addEventListener("mouseup", this.onMouseup, false);
+        this.screen.canvas.addEventListener("mouseup", this.onMouseup, false);      
         window.addEventListener('keydown', this.onKey);
         ID = new Enum(names);
         for(var i =0; i<ID.length; i++){
@@ -124,18 +124,15 @@ class Frame{
         this.centerY = this.y + this.image.height/2;
 
         context.save();
-        //확대
+        //scale
         context.scale(this.scale,this.scale);
-
         //Alpha
         if(this.state.alpha)context.globalAlpha = this.state.alpha[this.idx_frame];
-        
-        //회전
+        //rotate
         context.translate(this.centerX,this.centerY);
         context.rotate(this.radToDag(this.rotate));
         context.translate(-this.centerX,-this.centerY);
-        
-        //반짝임
+        //lightup
         if(this.lightup > 0){
             if((this.lightup % 2)==0){
                 context.filter = 'hue-rotate(120deg) grayscale(10%) brightness(150%)';

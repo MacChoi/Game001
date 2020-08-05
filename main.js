@@ -1,6 +1,6 @@
 var UPDATE_DELAY = 100;
 var screen = new Screen(1,2);
-var objects = new ObjectContainer(screen,["control","player","map"]);
+var objects = new ObjectContainer(screen,["player","map"]);
 objects.isDrawCollision = true;
 function main() {
 	screen.init();
@@ -9,7 +9,6 @@ function main() {
 	new ControlPad(objects);
 	update();
 }
-
 function update() {
 	var start = new Date().getTime();
 	objects.draw();
@@ -17,7 +16,6 @@ function update() {
 	var delay = new Date().getTime() - start ;
 	setTimeout(this.update, UPDATE_DELAY - delay);
 }
-
 window.onresize = function(event) {
 	screen.init();
 }
