@@ -4,9 +4,9 @@ class ObjectContainer{
     constructor(screen,names) {
         this.screen = screen;
         this.context = screen.bufferContext;
-        this.screen.canvas.addEventListener("mousemove", this.onMouse, false);
-        this.screen.canvas.addEventListener("mousedown", this.onMouse, false);
-        this.screen.canvas.addEventListener("mouseup", this.onMouse, false);
+        this.screen.canvas.addEventListener("mousemove", this.onMousemove, false);
+        this.screen.canvas.addEventListener("mousedown", this.onMousedown, false);
+        this.screen.canvas.addEventListener("mouseup", this.onMouseup, false);
         window.addEventListener('keydown', this.onKey);
         ID = new Enum(names);
         for(var i =0; i<ID.length; i++){
@@ -22,17 +22,27 @@ class ObjectContainer{
         OBJECT.splice(idx_frame,1);
     }
 
-    onMouse(e) {
-        e.stopPropagation();
+    onMousemove(e){
         for(var i =0; i<OBJECT.length; i++){
-            OBJECT[i].onMouse(e);
+            if(OBJECT[i].onMousemove)OBJECT[i].onMousemove(e);
+        } 
+    }
+    onMousedown(e){
+        for(var i =0; i<OBJECT.length; i++){
+            if(OBJECT[i].onMousedown)OBJECT[i].onMousedown(e);
+        } 
+    }
+    onMouseup(e){
+        for(var i =0; i<OBJECT.length; i++){
+            if(OBJECT[i].onMouseup)OBJECT[i].onMouseup(e);
         } 
     }
 
     onKey(e) {
         for(var i =0; i<OBJECT.length; i++){
             e.id = OBJECT[i].id;
-            OBJECT[i].onKey(e);
+            e.state = OBJECT[i].state;
+            if(OBJECT[i].onKey)OBJECT[i].onKey(e);
         } 
         e.preventDefault();
     }
@@ -53,22 +63,21 @@ class ObjectContainer{
             //if(OBJECT[i] == null)continue;
             OBJECT[i].idx = i;
             OBJECT[i].draw(this.context);
-            OBJECT[i].onDraw(OBJECT[i]);
+            if(OBJECT[i].onDraw)OBJECT[i].onDraw(OBJECT[i]);
             if(OBJECT[i].state.image.length-1 == OBJECT[i].idx_frame)
-            OBJECT[i].endFrame(OBJECT[i]);
-            else OBJECT[i].nextFrame(OBJECT[i]);
+                if(OBJECT[i].endFrame)OBJECT[i].endFrame(OBJECT[i]);
+            else if(OBJECT[i].nextFrame)OBJECT[i].nextFrame(OBJECT[i]);
         } 
         this.context.restore();
-        this.screen.push();
     }
 }
 
 class Frame{
-    constructor(id,x,y,images) {
+    constructor(id,state,x,y,images) {
         this.collision = new Collision();
         this.id = id;
         this.images = images;
-        this.setState( [[1][0][0]],x,y,1);
+        this.setState(state,x,y,1);
     }
 
     checkCollision(object){
@@ -76,10 +85,12 @@ class Frame{
         for(var i=0; i<OBJECT.length; i++){
             //if(OBJECT[i] == null)continue;
             if(object.id == OBJECT[i].id)continue;
+            if(!OBJECT[i].onCollision)continue;
+
             if(this.collision.isCheckRect(object, OBJECT[i])) {
                 var rect = this.collision.getCheckRect(object, OBJECT[i]);
                 if(this.collision.isCheckPixel(object, OBJECT[i],rect)){
-                    object.onCollision({objA:object,objB:OBJECT[i]});
+                    if(object.onCollision)object.onCollision({objA:object,objB:OBJECT[i]});
                     //isCollision=true;
                     return true;
                 }
@@ -164,12 +175,12 @@ class Frame{
         return angle * Math.PI/180;
     }
 
-    onMouse(e){}
-    onKey(e){}
-    onDraw(e){}
-    nextFrame(e){}
-    endFrame(e){}
-    onCollision(e){}
+    // onMouse(e){}
+    // onKey(e){}
+    // onDraw(e){}
+    // nextFrame(e){}
+    // endFrame(e){}
+    // onCollision(e){}
 }
 
 class Collision{
@@ -281,7 +292,7 @@ class File{
             IMAGES[i].src =  imagePath + "/" + i + ".png";
             //console.log("IMAGES[" + i + "].src: " + IMAGES[i].src);
         }
-        //console.log("loadImages: " + count);
+        console.log("loadImages: " + imagePath +" " + count);
         return IMAGES;
     }
 
@@ -294,7 +305,7 @@ class File{
             SOUNDS[i].volume = volume ;
             //console.log("SOUND[" + i + "].src: " + soundPath + "/" + (i) + ".mp3");
         }
-        //console.log("loadSounds: " + count);
+        //console.log("loadSounds: " + soundPath +" "+ count);
         return SOUNDS;
     }
 }
@@ -320,13 +331,16 @@ class KEY{
     static get UP(){return 38;};
     static get RIGHT(){return 39;};
     static get DOWN(){return 40;};
-    static get SPACE(){return 32;};
-    static get ALT(){return 18;};
     static get A(){return 65;};
-    static get S(){return 83;};
-    static get _1(){return 49;};
-    static get _2(){return 50;};
-    static get _3(){return 51;};
+    static get B(){return 66;};
+    static get X(){return 88;};
+    static get Y(){return 89;};
+}
+
+class MOUSE{
+    static get MOUSEMOVE(){return 37;};
+    static get MOUSEDOWN(){return 38;};
+    static get MOUSEUP(){return 39;};
 }
 
 class Random{
