@@ -76,9 +76,8 @@ class CONTROL extends Frame {
     }
     constructor(id,state,x,y,flip){
         super(id,state,x,y,image_control);
-        this.collision = new Collision();
-        this.collisionImageTmp =new Image(10,10);
         this.isClick = false;
+        this.isOffset = false;
     }
     onKey = function(e) { 
         //console.log("e.onKey: ID.CONTROL " + e.keyCode);
@@ -114,7 +113,8 @@ class CONTROL extends Frame {
         var mouseFrame = new Frame();
         mouseFrame.x=mouseEvent.offsetX / screen.scale;
         mouseFrame.y=mouseEvent.offsetY / screen.scale;
-        mouseFrame.image = this.collisionImageTmp;
+        mouseFrame.w = 10;
+        mouseFrame.h = 10;
 
         // console.log(this.id , this.x ,this.y , this.image.width , this.image.height);
         // console.log(mouseFrame.x,mouseFrame.y , mouseFrame.image.width , mouseFrame.image.height);

@@ -69,21 +69,26 @@ class ObjectContainer{
             else if(OBJECT[i].nextFrame)OBJECT[i].nextFrame(OBJECT[i]);
         } 
         this.context.restore();
+        this.screen.push();
     }
 }
 
 class Frame{
+    static offsetX = 0;
+    static offsetY = 0;
     constructor(id,state,x,y,images) {
         this.collision = new Collision();
         this.id = id;
         this.images = images;
         this.setState(state,x,y,1);
+        this.isOffset =true;
     }
 
     checkCollision(object){
+        if(!object.onCollision)return false;
         var isCollision = false;
         for(var i=0; i<OBJECT.length; i++){
-            //if(OBJECT[i] == null)continue;
+            if(OBJECT[i] == null)continue;
             if(object.id == OBJECT[i].id)continue;
             if(!OBJECT[i].onCollision)continue;
 
@@ -120,8 +125,10 @@ class Frame{
         }
         
         this.image = this.images[Math.abs(this.idx_img)];
-        this.centerX = this.x + this.image.width/2;
-        this.centerY = this.y + this.image.height/2;
+        this.w = this.image.width;
+        this.h = this.image.height;
+        this.centerX = this.x + this.w/2;
+        this.centerY = this.y + this.h/2;
 
         context.save();
         //scale
@@ -139,13 +146,21 @@ class Frame{
             }
             this.lightup-=1;
         }
+
         if(this.isDrawCollision == true)
-        context.strokeRect(this.collisionX,this.collisionY,5,5);
-       
+        context.strokeRect(this.collisionX -Frame.offsetX,this.collisionY -Frame.offsetY,5,5);
+
+        this.offsetX =0;
+        this.offsetY =0;
+        if(this.isOffset){
+            this.offsetX = Frame.offsetX;
+            this.offsetY = Frame.offsetY;
+        }
+
         if(this.idx_img < 0)
-            this.flipHorizontally(context,this.image,this.x,this.y); 
+            this.flipHorizontally(context,this.image,this.x +this.offsetX ,this.y +this.offsetY); 
         else
-            context.drawImage(this.image,this.x,this.y);
+            context.drawImage(this.image,this.x +this.offsetX,this.y +this.offsetY);
         context.restore();
 
         context.globalAlpha = 1.0;
@@ -201,10 +216,10 @@ class Collision{
         var rect1Right,rect1Bottom,rect2Right,rect2Bottom;
         var rect3Left,rect3Top,rect3Right,rect3Bottom;
         try {
-            rect1Right = Frame1.x + Frame1.image.width;
-            rect1Bottom = Frame1.y + Frame1.image.height;
-            rect2Right = Frame2.x + Frame2.image.width;
-            rect2Bottom = Frame2.y + Frame2.image.height;
+            rect1Right = Frame1.x + Frame1.w;
+            rect1Bottom = Frame1.y + Frame1.h;
+            rect2Right = Frame2.x + Frame2.w;
+            rect2Bottom = Frame2.y + Frame2.h;
             rect3Left = Math.max(Frame1.x, Frame2.x);
             rect3Top = Math.max(Frame1.y, Frame2.y);
             rect3Right = Math.min(rect1Right, rect2Right);
@@ -223,15 +238,15 @@ class Collision{
     isCheckRect(Frame1, Frame2) {
         var rect2CenterX,rect2CenterY,rect1CenterX,rect1CenterY;
         try {
-            rect2CenterX = Frame2.x + Frame2.image.width/2;
-            rect2CenterY = Frame2.y + Frame2.image.height/2;
-            rect1CenterX = Frame1.x + Frame1.image.width/2;
-            rect1CenterY = Frame1.y + Frame1.image.height/2;
+            rect2CenterX = Frame2.x + Frame2.w/2;
+            rect2CenterY = Frame2.y + Frame2.h/2;
+            rect1CenterX = Frame1.x + Frame1.w/2;
+            rect1CenterY = Frame1.y + Frame1.h/2;
         } catch (error) {
             return false;
         }
-        if((Math.abs(rect2CenterX - rect1CenterX) < Frame1.image.width / 2 + Frame2.image.width / 2) &&
-            Math.abs(rect2CenterY - rect1CenterY) < Frame1.image.height / 2 + Frame2.image.height / 2) {
+        if((Math.abs(rect2CenterX - rect1CenterX) < Frame1.w / 2 + Frame2.w / 2) &&
+            Math.abs(rect2CenterY - rect1CenterY) < Frame1.h / 2 + Frame2.h / 2) {
             return true
         } else {
             return false
@@ -284,6 +299,11 @@ class File{
         document.head.appendChild( jscript );
     }
 
+    loadImage(imagePath){
+        var image = new Image();
+        image.src =  imagePath;
+    }
+
     loadImages(imagePath,imageCount){
         var count = 0;
         var IMAGES = new Array(imageCount+1);
@@ -309,6 +329,26 @@ class File{
         }
         //console.log("loadSounds: " + soundPath +" "+ count);
         return SOUNDS;
+    }
+
+    cutImageUp(image,numColsToCut,numRowsToCut) {
+        var widthOfOnePiece = image.width / numColsToCut;
+        var heightOfOnePiece = image.height / numRowsToCut;
+        var imagePieces = new Array();
+        imagePieces.push(new Image());
+        for(var x = 0; x < numColsToCut; ++x) {
+            for(var y = 0; y < numRowsToCut; ++y) {
+                var canvas = document.createElement('canvas');
+                canvas.width = widthOfOnePiece;
+                canvas.height = heightOfOnePiece;
+                var context = canvas.getContext('2d');
+                context.drawImage(image, x * widthOfOnePiece, y * heightOfOnePiece, widthOfOnePiece, heightOfOnePiece, 0, 0, canvas.width, canvas.height);
+                var img = new Image();
+                img.src = canvas.toDataURL("image/png");
+                imagePieces.push(this); 
+            }
+        }
+        return imagePieces;
     }
 }
 

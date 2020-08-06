@@ -19,7 +19,7 @@ class PLAYER extends Frame {
         image : [1,1,4,4,1,1,4,4],
         x : [5,5,5,5,5,5,5,5],
         y : [0,0,0,0,0,0,0,0],
-        weight : [5,5,5,5,5,5,5,5],
+       // weight : [5,5,5,5,5,5,5,5],
     }
     static UP = {
         image : [1,1,2,2,1,1,2,2],
@@ -31,7 +31,7 @@ class PLAYER extends Frame {
         image : [1,1,2,2,1,1,2,2],
         x : [0,0,0,0,0,0,0,0],
         y : [5,5,5,5,0,0,0,0],
-        weight : [5,5,5,5,5,5,5,5],
+       // weight : [5,5,5,5,5,5,5,5],
     }
     
     constructor(id,state,x,y,flip){
@@ -42,21 +42,25 @@ class PLAYER extends Frame {
 
         this.isDrawCollision =true;
     }
+    
     onKey = function(e) {  
         //console.log("e.keyCode: ID.PLAYER " + e.keyCode);
         if(this.id != ID.player)return;
         switch (e.keyCode){
             case KEY.LEFT:
+                Frame.offsetX++;
                 this.setState(PLAYER.RIGHT,this.x,this.y,-1);
                 break;
             case KEY.RIGHT:
+                Frame.offsetX--;
                 this.setState(PLAYER.RIGHT,this.x,this.y,1);
                 break;
             case KEY.UP:
+                Frame.offsetY++;
                 this.setState(PLAYER.UP,this.x,this.y,this.flip);
             break;    
             case KEY.DOWN:
-
+                Frame.offsetY--;
                 this.setState(PLAYER.DOWN,this.x,this.y,this.flip);
             break;          
         }
@@ -82,9 +86,6 @@ class PLAYER extends Frame {
     }
     onMouse = function(e) {
         //console.log("e.onMouse: ID.PLAYER " + e.offsetX);
-    }
-    onDraw  = function(e) {
-        //console.log("e.onDraw: ID.PLAYER " + e);
     }
     nextFrame  = function(e) {
         //console.log("e.nextFrame: ID.PLAYER " + e);
