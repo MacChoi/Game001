@@ -1,15 +1,21 @@
 var UPDATE_DELAY = 100;
 var screen = new Screen(1,2);
 var objects = new ObjectContainer(screen,["player"]);
-var map = new MAP(objects);
-var controlPad = new ControlPad(objects);
+
 function main() {
 	screen.init();
-	objects.new(new PLAYER(ID.player,PLAYER.NEW,10,10,-1));
-	var p =new PLAYER(2,PLAYER.NEW,100,10,-1);
-	p.onKey = null;
-	objects.new(p);
+	new MAP(objects);
+	new ControlPad(objects);
+	
+	var player = new PLAYER(ID.player,PLAYER.NEW,0,0,-1);
+	player.isOffset = false;
+	objects.new(player);
+	var player2 =new PLAYER(2,PLAYER.NEW,100,10,-1);
+	player2.onKey = null;
+	objects.new(player2);
+	
 	update();
+	new CAMERA(objects,player);
 }
 function update() {
 	var start = new Date().getTime();

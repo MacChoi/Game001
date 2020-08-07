@@ -4,7 +4,7 @@ class ControlPad{
         var imgW = image_control[1].width;
         var imgH = image_control[1].height;
         var sX = imgW *2;
-        var sY = imgH *7;
+        var sY = imgH *12;
    
         objectContainer.new(new CONTROL(KEY.UP,CONTROL.UP,sX,sY,1));
         objectContainer.new(new CONTROL(KEY.LEFT,CONTROL.LEFT,sX-imgW,sY+imgH,1));
@@ -14,7 +14,7 @@ class ControlPad{
         var keyImgW = image_control[2].width;
         var keyImgH = image_control[2].height;
         var keyX = keyImgW *3;
-        var keyY = keyImgH *5.4;
+        var keyY = keyImgH *9.2;
 
         objectContainer.new(new CONTROL(KEY.X,CONTROL.X,keyX,keyY,0,1));
         objectContainer.new(new CONTROL(KEY.Y,CONTROL.Y,keyX,keyY+keyImgH+imgW/2,0,1));

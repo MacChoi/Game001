@@ -42,25 +42,20 @@ class PLAYER extends Frame {
 
         this.isDrawCollision =true;
     }
-    
     onKey = function(e) {  
         //console.log("e.keyCode: ID.PLAYER " + e.keyCode);
         if(this.id != ID.player)return;
         switch (e.keyCode){
             case KEY.LEFT:
-                Frame.offsetX++;
                 this.setState(PLAYER.RIGHT,this.x,this.y,-1);
                 break;
             case KEY.RIGHT:
-                Frame.offsetX--;
                 this.setState(PLAYER.RIGHT,this.x,this.y,1);
                 break;
             case KEY.UP:
-                Frame.offsetY++;
                 this.setState(PLAYER.UP,this.x,this.y,this.flip);
             break;    
             case KEY.DOWN:
-                Frame.offsetY--;
                 this.setState(PLAYER.DOWN,this.x,this.y,this.flip);
             break;          
         }

@@ -152,7 +152,7 @@ class Frame{
 
         this.offsetX =0;
         this.offsetY =0;
-        if(this.isOffset){
+        if(this.isOffset == true){
             this.offsetX = Frame.offsetX;
             this.offsetY = Frame.offsetY;
         }
@@ -302,6 +302,7 @@ class File{
     loadImage(imagePath){
         var image = new Image();
         image.src =  imagePath;
+        return image;
     }
 
     loadImages(imagePath,imageCount){
