@@ -85,17 +85,27 @@ class Frame{
     }
 
     checkCollision(object){
+        var objA = Object.assign({},object);
+        if(objA.isOffset==true){
+            objA.x +=objA.offsetX;
+            objA.y +=objA.offsetY;
+        }
+
         if(!object.onCollision)return false;
         var isCollision = false;
         for(var i=0; i<OBJECT.length; i++){
-            if(OBJECT[i] == null)continue;
-            if(object.id == OBJECT[i].id)continue;
-            if(!OBJECT[i].onCollision)continue;
-
-            if(this.collision.isCheckRect(object, OBJECT[i])) {
-                var rect = this.collision.getCheckRect(object, OBJECT[i]);
-                if(this.collision.isCheckPixel(object, OBJECT[i],rect)){
-                    if(object.onCollision)object.onCollision({objA:object,objB:OBJECT[i]});
+            var objB = Object.assign({},OBJECT[i]);
+            if(objB.isOffset==true){
+                objB.x +=objB.offsetX;
+                objB.y +=objB.offsetY;
+            }
+            if(objB == null)continue;
+            if(objA.id == objB.id)continue;
+            if(!objB.onCollision)continue;
+            if(this.collision.isCheckRect(objA, objB)) {
+                var rect = this.collision.getCheckRect(objA,objB);
+                if(this.collision.isCheckPixel(objA,objB,rect)){
+                    if(objA.onCollision)objA.onCollision({objA:objA,objB:objB});
                     //isCollision=true;
                     return true;
                 }
@@ -111,6 +121,12 @@ class Frame{
         this.px = this.x;
         this.py = this.y;
 
+        this.offsetX =0;
+        this.offsetY =0;
+        if(this.isOffset == true){
+            this.offsetX = Frame.offsetX;
+            this.offsetY = Frame.offsetY;
+        }
         this.x += this.state.x[this.idx_frame] * this.flip;
         if(this.checkCollision(this))this.x = this.px ;
         this.y += this.state.y[this.idx_frame];
@@ -148,14 +164,7 @@ class Frame{
         }
 
         if(this.isDrawCollision == true)
-        context.strokeRect(this.collisionX -Frame.offsetX,this.collisionY -Frame.offsetY,5,5);
-
-        this.offsetX =0;
-        this.offsetY =0;
-        if(this.isOffset == true){
-            this.offsetX = Frame.offsetX;
-            this.offsetY = Frame.offsetY;
-        }
+        context.strokeRect(this.collisionX +Frame.offsetX,this.collisionY +Frame.offsetY,5,5);
 
         if(this.idx_img < 0)
             this.flipHorizontally(context,this.image,this.x +this.offsetX ,this.y +this.offsetY); 

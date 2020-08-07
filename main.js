@@ -1,7 +1,6 @@
 var UPDATE_DELAY = 100;
 var screen = new Screen(1,2);
 var objects = new ObjectContainer(screen,["player"]);
-
 function main() {
 	screen.init();
 	new MAP(objects);
