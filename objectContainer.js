@@ -1,6 +1,8 @@
 let ID = null;
 let OBJECT = new Array();
 class ObjectContainer{
+    static offsetX = 0;
+    static offsetY = 0;
     constructor(screen,names) {
         this.screen = screen;
         this.context = screen.bufferContext;
@@ -60,7 +62,7 @@ class ObjectContainer{
         this.context.save();
         this.context.scale(this.screen.scale,this.screen.scale);
         for(var i=0; i<OBJECT.length; i++){
-            //if(OBJECT[i] == null)continue;
+            if(OBJECT[i] == null)continue;
             OBJECT[i].idx = i;
             OBJECT[i].draw(this.context);
             if(OBJECT[i].onDraw)OBJECT[i].onDraw(OBJECT[i]);
@@ -69,36 +71,24 @@ class ObjectContainer{
             else if(OBJECT[i].nextFrame)OBJECT[i].nextFrame(OBJECT[i]);
         } 
         this.context.restore();
-        this.screen.push();
+        this.screen.push(this.offsetX,this.offsetY);
     }
 }
 
 class Frame{
-    static offsetX = 0;
-    static offsetY = 0;
     constructor(id,state,x,y,images) {
         this.collision = new Collision();
         this.id = id;
         this.images = images;
         this.setState(state,x,y,1);
-        this.isOffset =true;
     }
 
     checkCollision(object){
-        var objA = Object.assign({},object);
-        if(objA.isOffset==true){
-            objA.x +=objA.offsetX;
-            objA.y +=objA.offsetY;
-        }
-
+        var objA = object;
         if(!object.onCollision)return false;
         var isCollision = false;
         for(var i=0; i<OBJECT.length; i++){
-            var objB = Object.assign({},OBJECT[i]);
-            if(objB.isOffset==true){
-                objB.x +=objB.offsetX;
-                objB.y +=objB.offsetY;
-            }
+            var objB = OBJECT[i];
             if(objB == null)continue;
             if(objA.id == objB.id)continue;
             if(!objB.onCollision)continue;
@@ -114,24 +104,34 @@ class Frame{
         return isCollision;
     }
 
+    checkCollisionRect(object){
+        var objA = object;
+        if(!object.onCollision)return false;
+        var isCollision = false;
+        for(var i=0; i<OBJECT.length; i++){
+            var objB = OBJECT[i];
+            if(objB == null)continue;
+            if(objA.id == objB.id)continue;
+            if(!objB.onCollision)continue;
+            if(this.collision.isCheckRect(objA, objB)) {
+                //isCollision=true;
+                return true;
+            }
+        }
+        return isCollision;
+    }
+
     draw(context){
         this.context =context;
         if(this.state.image.length-1 < this.idx_frame)this.idx_frame = 0;
         this.idx_img = this.state.image[this.idx_frame] * this.flip;
         this.px = this.x;
         this.py = this.y;
-
-        this.offsetX =0;
-        this.offsetY =0;
-        if(this.isOffset == true){
-            this.offsetX = Frame.offsetX;
-            this.offsetY = Frame.offsetY;
-        }
         this.x += this.state.x[this.idx_frame] * this.flip;
-        if(this.checkCollision(this))this.x = this.px ;
+        if(this.checkCollisionRect(this))this.x = this.px;
         this.y += this.state.y[this.idx_frame];
-        if(this.checkCollision(this))this.y = this.py;
-        
+        if(this.checkCollisionRect(this))this.y = this.py;
+       
         if(this.state.rotate)this.rotate = this.state.rotate[this.idx_frame] * this.flip;
         else this.rotate = 0;
 
@@ -164,12 +164,12 @@ class Frame{
         }
 
         if(this.isDrawCollision == true)
-        context.strokeRect(this.collisionX +Frame.offsetX,this.collisionY +Frame.offsetY,5,5);
+        context.strokeRect(this.collisionX,this.collisionY,5,5);
 
         if(this.idx_img < 0)
-            this.flipHorizontally(context,this.image,this.x +this.offsetX ,this.y +this.offsetY); 
+            this.flipHorizontally(context,this.image,this.x,this.y); 
         else
-            context.drawImage(this.image,this.x +this.offsetX,this.y +this.offsetY);
+            context.drawImage(this.image,this.x,this.y);
         context.restore();
 
         context.globalAlpha = 1.0;

@@ -33,8 +33,8 @@ class Screen {
         this.canvas.style.top = this.y + 'px';
         this.scale = this.width * 0.00196;
     }
-    push(){
-        this.context.drawImage(this.bufferCanvas, 0, 0);
+    push(x,y){
+        this.context.drawImage(this.bufferCanvas,x,y);
         this.bufferContext.fillStyle = "green";
         this.bufferContext.fillRect(0, 0, this.width, this.height);
     }

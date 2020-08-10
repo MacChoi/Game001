@@ -68,15 +68,18 @@ class PLAYER extends Frame {
             case this.UP:
             case this.DOWN:
             case this.LEFT:
-                this.setState(PLAYER.NEW,this.x,this.y,this.flip);
+             //   this.setState(PLAYER.NEW,this.x,this.y,this.flip);
             break;
             case this.RIGHT:
-                this.setState(PLAYER.NEW,this.x,this.y,this.flip);
+            //    this.setState(PLAYER.NEW,this.x,this.y,this.flip);
             break;
         }
         //console.log("e.endFrame: ID.PLAYER " + e);
     }
     onDraw  = function(e) {
+        console.log("camera : " + this.x ,this.y);
+        objects.offsetX = -this.x;
+        objects.offsetY = -this.y;
     //console.log("e.onDraw: ID.PLAYER " + e);
     }
     onMouse = function(e) {
