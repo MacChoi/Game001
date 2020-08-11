@@ -42,7 +42,7 @@ class PLAYER extends Frame {
 
         this.isDrawCollision =true;
     }
-    onKey = function(e) {  
+    onKeydown = function(e) {  
         //console.log("e.keyCode: ID.PLAYER " + e.keyCode);
        // if(this.id != ID.player)return;
         switch (e.keyCode){

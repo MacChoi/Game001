@@ -132,7 +132,7 @@ class CONTROL extends Frame {
 
     onDraw  = function(e) {
         if(this.isClick){
-            objects.onKey(this.isClick);
+            objects.onKeydown(this.isClick);
             this.lightup = 2; 
         }
     }

@@ -38,11 +38,11 @@ class ObjectContainer{
         } 
     }
 
-    onKey(e) {
+    onKeydown(e) {
         for(var i =0; i<this.OBJECT.length; i++){
             e.id = this.OBJECT[i].id;
             e.state = this.OBJECT[i].state;
-            if(this.OBJECT[i].onKey)this.OBJECT[i].onKey(e);
+            if(this.OBJECT[i].onKeydown)this.OBJECT[i].onKeydown(e);
         } 
         e.preventDefault();
     }

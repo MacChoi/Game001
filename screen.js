@@ -14,7 +14,6 @@ class Screen {
         this.ratio_v = ratio_v;
         this.init();
     }
-
     init() {
         this.width = 0;
         this.height = 0;
@@ -35,7 +34,7 @@ class Screen {
     }
     push(){
         this.context.drawImage(this.bufferCanvas,0,0);
-        // this.bufferContext.fillStyle = "green";
-        // this.bufferContext.fillRect(0, 0, this.width, this.height);
+        this.bufferContext.fillStyle = "green";
+        this.bufferContext.fillRect(0, 0, this.width, this.height);
     }
 }
