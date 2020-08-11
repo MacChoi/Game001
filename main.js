@@ -5,7 +5,7 @@ var pad = new ObjectContainer(screen,[]);
 function main() {
 	screen.init();
 	new MAP(objects);
-	var player = new PLAYER(ID.player,PLAYER.NEW,100,200,-1);
+	var player = new PLAYER(ID.player,PLAYER.NEW,0,0,-1);
 	objects.new(player);
 	var player2 =new PLAYER(2,PLAYER.NEW,100,10,-1);
 	player2.onKey = null;

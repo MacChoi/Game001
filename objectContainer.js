@@ -14,8 +14,8 @@ class ObjectContainer{
     }
 
     new(frame){
-        frame.OBJECT = this;
-        frame.idx_obj = this.OBJECT.push(frame);
+        frame.OBJECT = this.OBJECT;
+        frame.idx_obj = this.OBJECT.push(frame); 
     }
 
     delete(idx_frame){
@@ -94,7 +94,6 @@ class Frame{
             if(!objB.onCollision)continue;
             
             if(this.collision.isCheckRect(objA, objB)) {
-                
                 var rect = this.collision.getCheckRect(objA,objB);
                 if(this.collision.isCheckPixel(objA,objB,rect)){
                     if(objA.onCollision)objA.onCollision({objA:objA,objB:objB});

@@ -8,7 +8,5 @@ class MAP extends Frame {
     constructor(objectContainer){ 
         super(ID.map=-2,MAP.NEW,0,0,[image_map]);
         objectContainer.new(this);
-        this.width = objectContainer.screen.width;
-        this.height = objectContainer.screen.height;
     }
 }
