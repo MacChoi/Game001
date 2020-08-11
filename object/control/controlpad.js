@@ -122,7 +122,7 @@ class CONTROL extends Frame {
         if(this.collision.isCheckRect(this,mouseFrame)){
             //console.log(this.state);
             this.isClick = this.getKeyboardEvent(this.id);
-            objects.onKey(this.isClick);
+            this.lightup = 2; 
         } 
     }
 
@@ -133,6 +133,7 @@ class CONTROL extends Frame {
     onDraw  = function(e) {
         if(this.isClick){
             objects.onKey(this.isClick);
+            this.lightup = 2; 
         }
     }
 

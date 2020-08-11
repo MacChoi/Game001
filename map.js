@@ -10,7 +10,5 @@ class MAP extends Frame {
         objectContainer.new(this);
         this.width = objectContainer.screen.width;
         this.height = objectContainer.screen.height;
-        this.offsetX = 0;
-        this.offsetY = 0;
     }
 }

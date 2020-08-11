@@ -44,7 +44,7 @@ class PLAYER extends Frame {
     }
     onKey = function(e) {  
         //console.log("e.keyCode: ID.PLAYER " + e.keyCode);
-        if(this.id != ID.player)return;
+       // if(this.id != ID.player)return;
         switch (e.keyCode){
             case KEY.LEFT:
                 this.setState(PLAYER.RIGHT,this.x,this.y,-1);
@@ -77,9 +77,9 @@ class PLAYER extends Frame {
         //console.log("e.endFrame: ID.PLAYER " + e);
     }
     onDraw  = function(e) {
-        console.log("camera : " + this.x ,this.y);
-        objects.offsetX = -this.x;
-        objects.offsetY = -this.y;
+        //console.log("camera : " + this.x ,this.y);
+        objects.offsetX -= (this.x -this.px);
+        objects.offsetY -= (this.y -this.py);
     //console.log("e.onDraw: ID.PLAYER " + e);
     }
     onMouse = function(e) {

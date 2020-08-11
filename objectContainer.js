@@ -1,15 +1,12 @@
 let ID = null;
-let OBJECT = new Array();
 class ObjectContainer{
-    static offsetX = 0;
-    static offsetY = 0;
     constructor(screen,names) {
+        this.offsetX = 0;
+        this.offsetY = 0;
+        this.OBJECT = new Array();
         this.screen = screen;
         this.context = screen.bufferContext;
-        this.screen.canvas.addEventListener("mousemove", this.onMousemove, false);
-        this.screen.canvas.addEventListener("mousedown", this.onMousedown, false);
-        this.screen.canvas.addEventListener("mouseup", this.onMouseup, false);      
-        window.addEventListener('keydown', this.onKey);
+    
         ID = new Enum(names);
         for(var i =0; i<ID.length; i++){
             new File().include("object/" + names[i] + "/" + names[i] + ".js");
@@ -17,38 +14,39 @@ class ObjectContainer{
     }
 
     new(frame){
-        frame.idx_obj = OBJECT.push(frame);
+        frame.OBJECT = this;
+        frame.idx_obj = this.OBJECT.push(frame);
     }
 
     delete(idx_frame){
-        OBJECT.splice(idx_frame,1);
+        this.OBJECT.splice(idx_frame,1);
     }
 
     onMousemove(e){
-        for(var i =0; i<OBJECT.length; i++){
-            if(OBJECT[i].onMousemove)OBJECT[i].onMousemove(e);
+        for(var i =0; i<this.OBJECT.length; i++){
+            if(this.OBJECT[i].onMousemove)this.OBJECT[i].onMousemove(e);
         } 
     }
     onMousedown(e){
-        for(var i =0; i<OBJECT.length; i++){
-            if(OBJECT[i].onMousedown)OBJECT[i].onMousedown(e);
+        for(var i =0; i<this.OBJECT.length; i++){
+            if(this.OBJECT[i].onMousedown)this.OBJECT[i].onMousedown(e);
         } 
     }
     onMouseup(e){
-        for(var i =0; i<OBJECT.length; i++){
-            if(OBJECT[i].onMouseup)OBJECT[i].onMouseup(e);
+        for(var i =0; i<this.OBJECT.length; i++){
+            if(this.OBJECT[i].onMouseup)this.OBJECT[i].onMouseup(e);
         } 
     }
 
     onKey(e) {
-        for(var i =0; i<OBJECT.length; i++){
-            e.id = OBJECT[i].id;
-            e.state = OBJECT[i].state;
-            if(OBJECT[i].onKey)OBJECT[i].onKey(e);
+        for(var i =0; i<this.OBJECT.length; i++){
+            e.id = this.OBJECT[i].id;
+            e.state = this.OBJECT[i].state;
+            if(this.OBJECT[i].onKey)this.OBJECT[i].onKey(e);
         } 
         e.preventDefault();
     }
-
+  
     setpixelated(context){
         context['imageSmoothingEnabled'] = false;       /* standard */
         context['mozImageSmoothingEnabled'] = false;    /* Firefox */
@@ -61,38 +59,42 @@ class ObjectContainer{
         this.setpixelated(this.context);
         this.context.save();
         this.context.scale(this.screen.scale,this.screen.scale);
-        for(var i=0; i<OBJECT.length; i++){
-            if(OBJECT[i] == null)continue;
-            OBJECT[i].idx = i;
-            OBJECT[i].draw(this.context);
-            if(OBJECT[i].onDraw)OBJECT[i].onDraw(OBJECT[i]);
-            if(OBJECT[i].state.image.length-1 == OBJECT[i].idx_frame)
-                if(OBJECT[i].endFrame)OBJECT[i].endFrame(OBJECT[i]);
-            else if(OBJECT[i].nextFrame)OBJECT[i].nextFrame(OBJECT[i]);
+        this.context.translate(this.offsetX,this.offsetY);
+        for(var i=0; i<this.OBJECT.length; i++){
+            if(this.OBJECT[i] == null)continue;
+            this.OBJECT[i].idx = i;
+            this.OBJECT[i].offsetX = this.offsetX;
+            this.OBJECT[i].offsetY = this.offsetY;
+            this.OBJECT[i].draw(this.context);
+            if(this.OBJECT[i].onDraw)this.OBJECT[i].onDraw(this.OBJECT[i]);
+            if(this.OBJECT[i].state.image.length-1 == this.OBJECT[i].idx_frame)
+                if(this.OBJECT[i].endFrame)this.OBJECT[i].endFrame(this.OBJECT[i]);
+            else if(this.OBJECT[i].nextFrame)this.OBJECT[i].nextFrame(this.OBJECT[i]);
         } 
         this.context.restore();
-        this.screen.push(this.offsetX,this.offsetY);
     }
 }
 
 class Frame{
     constructor(id,state,x,y,images) {
-        this.collision = new Collision();
         this.id = id;
         this.images = images;
         this.setState(state,x,y,1);
+        this.collision = new Collision();
     }
 
     checkCollision(object){
         var objA = object;
         if(!object.onCollision)return false;
         var isCollision = false;
-        for(var i=0; i<OBJECT.length; i++){
-            var objB = OBJECT[i];
+        for(var i=0; i<this.OBJECT.length; i++){
+            var objB = this.OBJECT[i];
             if(objB == null)continue;
             if(objA.id == objB.id)continue;
             if(!objB.onCollision)continue;
+            
             if(this.collision.isCheckRect(objA, objB)) {
+                
                 var rect = this.collision.getCheckRect(objA,objB);
                 if(this.collision.isCheckPixel(objA,objB,rect)){
                     if(objA.onCollision)objA.onCollision({objA:objA,objB:objB});
@@ -108,8 +110,8 @@ class Frame{
         var objA = object;
         if(!object.onCollision)return false;
         var isCollision = false;
-        for(var i=0; i<OBJECT.length; i++){
-            var objB = OBJECT[i];
+        for(var i=0; i<this.OBJECT.length; i++){
+            var objB = this.OBJECT[i];
             if(objB == null)continue;
             if(objA.id == objB.id)continue;
             if(!objB.onCollision)continue;
@@ -137,7 +139,7 @@ class Frame{
 
         if(this.state.weight){
             this.y += this.state.weight[this.idx_frame];
-            if(this.checkCollision(this))this.y = this.py;
+            if(this.checkCollisionRect(this))this.y = this.py;
         }
         
         this.image = this.images[Math.abs(this.idx_img)];
@@ -194,7 +196,7 @@ class Frame{
     }
 
     delete(idx_frame){
-        OBJECT.splice(idx_frame,1);
+        this.OBJECT.splice(idx_frame,1);
     }
 
     radToDag(angle){
