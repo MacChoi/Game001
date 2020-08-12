@@ -1,0 +1,131 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+      * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0;
+  }
+  
+  .wrap {
+    width: 320px;
+    border: 1px solid #ccc;
+    height: 480px;
+    overflow: auto;
+    position: relative;
+  }
+  .top-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 320px;
+    height: 60px;
+    .menu-icon {
+      position: absolute;
+      top: 0;
+      right: 0;
+      padding: 18px 20px;
+    }
+    .fix-search & {
+      background: #eee;
+    }
+  }
+  
+  .search {
+    position: absolute;
+    top: 155px;
+    left: 20px;
+    right: 20px;
+    input {
+      width: 265px;
+      border: 1px solid #ccc;
+      padding: 8px;
+      font-size: 15px;
+      transition: width 0.2s;
+      -webkit-appearance: none;
+    }
+    .fix-search & {
+      position: fixed;
+      top: 10px;
+      input {
+        width: 250px;
+      }
+    }
+  }
+  
+  .top {
+    height: 250px;
+    padding-top: 40px;
+  }
+  .hero {
+    width: 200px;
+    height: 100px;
+    background: #ccc;
+    margin: 0 auto;
+  }
+  
+  main {
+    padding: 0 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    div {
+      width: 125px;
+      height: 80px;
+      background: #ccc;
+      margin: 0 0 20px 0;
+    }
+  }
+    </style>
+  </head>
+ 
+
+  <body>
+    <div class="wrap" id="wrap">
+  
+      <header class="top-header">
+        <span class="menu-icon">☰</span>
+      </header>
+      
+      <div class="search">
+        <input type="search" placeholder="Search or type URL" />
+      </div>
+      
+      <div class="top">
+        <div class="hero"></div>
+      </div>
+    
+      <main>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </main>
+    </div>
+  </body>
+  <script>
+    var wrap = $("#wrap");
+
+    function addClass(element, className) { element.className += " " + className; };
+    function removeClass(element, className) { var check = new RegExp("(\\s|^)" + className + "(\\s|$)"); element.className = element.className.replace(check, " ").trim(); };
+    var wrap = document.getElementById("wrap");
+    wrap.addEventListener("scroll", function(e) {
+        if (this.scrollTop > 147) {
+            addClass(wrap,"fix-search");
+        } else {
+            removeClass(wrap,"fix-search");
+        }
+    });
+  </script>
+
+</html>

@@ -29,7 +29,6 @@ function update() {
 	var delay = new Date().getTime() - start ;
 	setTimeout(this.update, UPDATE_DELAY - delay);
 }
-
 window.onresize = function(event) {
 	screen.init();
 }
