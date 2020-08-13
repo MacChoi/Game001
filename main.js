@@ -1,15 +1,14 @@
 var UPDATE_DELAY = 100;
 var screen = new Screen(1,2);
-var screen2 = new Screen(2,1);
-var objects = new ObjectContainer(screen,["player"]);
-var pad = new ObjectContainer(screen2,[]);
-
+var objects = new ObjectContainer(screen,["player","map"]);
+var pad = new ObjectContainer(screen,["control"]);
 function main() {
 	screen.init();
 	new MAP(objects);
 	new ControlPad(pad);
 	var player = new PLAYER(ID.player,PLAYER.NEW,0,0,-1);
 	objects.new(player);
+
 	var player2 =new PLAYER(2,PLAYER.NEW,100,10,-1);
 	player2.onKeydown = null;
 	player2.onDraw = null;
@@ -28,7 +27,6 @@ function update() {
 	objects.draw();
 	pad.draw();
 	screen.push();
-	screen2.push();
 	var delay = new Date().getTime() - start ;
 	setTimeout(this.update, UPDATE_DELAY - delay);
 }
@@ -51,7 +49,7 @@ function onKeydown(e) {
 }
 
 File.appendLoading();
-File.onLoading = function (){
-	if(File.fileCount==10)File.removeLoading();
-	console.log("onLoading :" +File.fileCount);
+File.onLoading = function (count){
+	if(count==10)File.removeLoading();
+	console.log("onLoading :" +count);
 };

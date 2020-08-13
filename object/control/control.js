@@ -1,25 +1,25 @@
-var image_control = new File().loadImages("object/control/image",5);
 class ControlPad{
     constructor(objectContainer){
-        var imgW = image_control[1].width;
-        var imgH = image_control[1].height;
+        var images = new File().loadImages("object/control/image",5);
+        var imgW = 60;
+        var imgH = 60;
         var sX = imgW *2;
         var sY = imgH *12;
    
-        objectContainer.new(new CONTROL(KEY.UP,CONTROL.UP,sX,sY,1));
-        objectContainer.new(new CONTROL(KEY.LEFT,CONTROL.LEFT,sX-imgW,sY+imgH,1));
-        objectContainer.new(new CONTROL(KEY.RIGHT,CONTROL.RIGHT,sX +imgW,sY+imgH,1));
-        objectContainer.new(new CONTROL(KEY.DOWN,CONTROL.DOWN,sX,sY+imgH*2,1));
+        objectContainer.new(new CONTROL(KEY.UP,CONTROL.UP,sX,sY,images));
+        objectContainer.new(new CONTROL(KEY.LEFT,CONTROL.LEFT,sX-imgW,sY+imgH,images));
+        objectContainer.new(new CONTROL(KEY.RIGHT,CONTROL.RIGHT,sX +imgW,sY+imgH,images));
+        objectContainer.new(new CONTROL(KEY.DOWN,CONTROL.DOWN,sX,sY+imgH*2,images));
 
-        var keyImgW = image_control[2].width;
-        var keyImgH = image_control[2].height;
-        var keyX = keyImgW *3;
-        var keyY = keyImgH *9.2;
+        var keyImgW = 70;
+        var keyImgH = 70;
+        var keyX = keyImgW *4;
+        var keyY = keyImgH *10.3;
 
-        objectContainer.new(new CONTROL(KEY.X,CONTROL.X,keyX,keyY,0,1));
-        objectContainer.new(new CONTROL(KEY.Y,CONTROL.Y,keyX,keyY+keyImgH+imgW/2,0,1));
-        objectContainer.new(new CONTROL(KEY.A,CONTROL.A,keyX+keyImgW+imgW/2,keyY,0,1));
-        objectContainer.new(new CONTROL(KEY.B,CONTROL.B,keyX+keyImgW+imgW/2,keyY+keyImgH+imgW/2,0,1));
+        objectContainer.new(new CONTROL(KEY.X,CONTROL.X,keyX,keyY,images));
+        objectContainer.new(new CONTROL(KEY.Y,CONTROL.Y,keyX,keyY+keyImgH+imgW/2,images));
+        objectContainer.new(new CONTROL(KEY.A,CONTROL.A,keyX+keyImgW+imgW/2,keyY,images));
+        objectContainer.new(new CONTROL(KEY.B,CONTROL.B,keyX+keyImgW+imgW/2,keyY+keyImgH+imgW/2,images));
     }
 }
 class CONTROL extends Frame {
@@ -73,9 +73,9 @@ class CONTROL extends Frame {
         x : [0],
         y : [0],
         alpha : [0.5],
-    }
-    constructor(id,state,x,y,flip){
-        super(id,state,x,y,image_control);
+    } 
+    constructor(id,state,x,y,images){
+        super(id,state,x,y,images);
         this.isClick = false;
         this.isOffset = false;
     }
