@@ -2,6 +2,7 @@ var UPDATE_DELAY = 100;
 var screen = new Screen(1,2);
 var objects = new ObjectContainer(screen,["player"]);
 var pad = new ObjectContainer(screen,[]);
+
 function main() {
 	screen.init();
 	new MAP(objects);
@@ -46,3 +47,9 @@ function onKeydown(e) {
 	objects.onKeydown(e);
 	pad.onKeydown(e);
 }
+
+File.appendLoading();
+File.onLoading = function (){
+	if(File.fileCount==10)File.removeLoading();
+	console.log("onLoading :" +File.fileCount);
+};
