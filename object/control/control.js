@@ -109,15 +109,14 @@ class CONTROL extends Frame {
         }
     }
     onMousedown = function(mouseEvent) {
-     //  if(this.state  != CONTROL.B)return;
         var mouseFrame = new Frame();
         mouseFrame.x=mouseEvent.offsetX / screen.scale;
         mouseFrame.y=mouseEvent.offsetY / screen.scale;
         mouseFrame.w = 10;
         mouseFrame.h = 10;
 
-        // console.log(this.id , this.x ,this.y , this.image.width , this.image.height);
-         //console.log(mouseFrame.x,mouseFrame.y , mouseFrame.w , mouseFrame.h);
+        console.log(this.id , this.x ,this.y , this.image.width , this.image.height);
+        console.log(mouseFrame.x,mouseFrame.y , mouseFrame.w , mouseFrame.h);
         
         if(this.collision.isCheckRect(this,mouseFrame)){
             this.isClick = this.getKeyboardEvent(this.id);

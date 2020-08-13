@@ -34,8 +34,8 @@ window.onresize = function(event) {
 	screen.init();
 }
 //window.addEventListener("mousemove", onMousemove, false);
-window.addEventListener("mousedown", onMousedown, false);
-window.addEventListener("mouseup", onMouseup, false);      
+screen.canvas.addEventListener("mousedown", onMousedown, false);
+screen.canvas.addEventListener("mouseup", onMouseup, false);      
 window.addEventListener('keydown', onKeydown);
 function onMouseup(e) {
 	pad.onMouseup(e);
