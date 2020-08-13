@@ -6,20 +6,20 @@ class ControlPad{
         var sX = imgW *2;
         var sY = imgH *12;
    
-        objectContainer.new(new CONTROL(KEY.UP,CONTROL.UP,sX,sY,images));
-        objectContainer.new(new CONTROL(KEY.LEFT,CONTROL.LEFT,sX-imgW,sY+imgH,images));
-        objectContainer.new(new CONTROL(KEY.RIGHT,CONTROL.RIGHT,sX +imgW,sY+imgH,images));
-        objectContainer.new(new CONTROL(KEY.DOWN,CONTROL.DOWN,sX,sY+imgH*2,images));
+        objectContainer.add(new CONTROL(KEY.UP,CONTROL.UP,sX,sY,images));
+        objectContainer.add(new CONTROL(KEY.LEFT,CONTROL.LEFT,sX-imgW,sY+imgH,images));
+        objectContainer.add(new CONTROL(KEY.RIGHT,CONTROL.RIGHT,sX +imgW,sY+imgH,images));
+        objectContainer.add(new CONTROL(KEY.DOWN,CONTROL.DOWN,sX,sY+imgH*2,images));
 
         var keyImgW = 70;
         var keyImgH = 70;
         var keyX = keyImgW *4;
         var keyY = keyImgH *10.3;
 
-        objectContainer.new(new CONTROL(KEY.X,CONTROL.X,keyX,keyY,images));
-        objectContainer.new(new CONTROL(KEY.Y,CONTROL.Y,keyX,keyY+keyImgH+imgW/2,images));
-        objectContainer.new(new CONTROL(KEY.A,CONTROL.A,keyX+keyImgW+imgW/2,keyY,images));
-        objectContainer.new(new CONTROL(KEY.B,CONTROL.B,keyX+keyImgW+imgW/2,keyY+keyImgH+imgW/2,images));
+        objectContainer.add(new CONTROL(KEY.X,CONTROL.X,keyX,keyY,images));
+        objectContainer.add(new CONTROL(KEY.Y,CONTROL.Y,keyX,keyY+keyImgH+imgW/2,images));
+        objectContainer.add(new CONTROL(KEY.A,CONTROL.A,keyX+keyImgW+imgW/2,keyY,images));
+        objectContainer.add(new CONTROL(KEY.B,CONTROL.B,keyX+keyImgW+imgW/2,keyY+keyImgH+imgW/2,images));
     }
 }
 class CONTROL extends Frame {
@@ -115,8 +115,8 @@ class CONTROL extends Frame {
         mouseFrame.w = 10;
         mouseFrame.h = 10;
 
-        console.log(this.id , this.x ,this.y , this.image.width , this.image.height);
-        console.log(mouseFrame.x,mouseFrame.y , mouseFrame.w , mouseFrame.h);
+        // console.log(this.id , this.x ,this.y , this.image.width , this.image.height);
+        // console.log(mouseFrame.x,mouseFrame.y , mouseFrame.w , mouseFrame.h);
         
         if(this.collision.isCheckRect(this,mouseFrame)){
             this.isClick = this.getKeyboardEvent(this.id);

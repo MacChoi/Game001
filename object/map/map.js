@@ -6,6 +6,6 @@ class MAP extends Frame {
     }
     constructor(objectContainer){ 
         super(ID.map=-2,MAP.NEW,0,0,[new File().loadImage("object/map/image/1.png")]);
-        objectContainer.new(this);
+        objectContainer.add(this);
     }
 }
