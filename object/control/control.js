@@ -79,7 +79,7 @@ class CONTROL extends Frame {
         this.isClick = false;
         this.isOffset = false;
     }
-    onKey = function(e) { 
+    onKeydown = function(e) { 
         //console.log("e.onKey: ID.CONTROL " + e.keyCode);
         switch (e.keyCode){
             case KEY.LEFT:
@@ -117,10 +117,9 @@ class CONTROL extends Frame {
         mouseFrame.h = 10;
 
         // console.log(this.id , this.x ,this.y , this.image.width , this.image.height);
-        // console.log(mouseFrame.x,mouseFrame.y , mouseFrame.image.width , mouseFrame.image.height);
+         //console.log(mouseFrame.x,mouseFrame.y , mouseFrame.w , mouseFrame.h);
         
         if(this.collision.isCheckRect(this,mouseFrame)){
-            //console.log(this.state);
             this.isClick = this.getKeyboardEvent(this.id);
             this.lightup = 2; 
         } 
