@@ -1,7 +1,8 @@
 var UPDATE_DELAY = 100;
 var screen = new Screen(1,2);
+var screen2 = new Screen(2,1);
 var objects = new ObjectContainer(screen,["player"]);
-var pad = new ObjectContainer(screen,[]);
+var pad = new ObjectContainer(screen2,[]);
 
 function main() {
 	screen.init();
@@ -27,6 +28,7 @@ function update() {
 	objects.draw();
 	pad.draw();
 	screen.push();
+	screen2.push();
 	var delay = new Date().getTime() - start ;
 	setTimeout(this.update, UPDATE_DELAY - delay);
 }
