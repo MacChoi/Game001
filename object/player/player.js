@@ -42,7 +42,7 @@ class PLAYER extends Frame {
 
         this.isDrawCollision =true;
     }
-    onKeydown = function(e) {  
+    onKeydown(e) {  
         //console.log("e.keyCode: ID.PLAYER " + e.keyCode);
        // if(this.id != ID.player)return;
         switch (e.keyCode){
@@ -76,19 +76,16 @@ class PLAYER extends Frame {
         }
         //console.log("e.endFrame: ID.PLAYER " + e);
     }
-    onDraw  = function(e) {
+    onDraw(e) {
         //console.log("camera : " + this.x ,this.y);
         objects.offsetX -= (this.x -this.px);
         objects.offsetY -= (this.y -this.py);
     //console.log("e.onDraw: ID.PLAYER " + e);
     }
-    onMouse = function(e) {
-        //console.log("e.onMouse: ID.PLAYER " + e.offsetX);
-    }
-    nextFrame  = function(e) {
+    nextFrame(e) {
         //console.log("e.nextFrame: ID.PLAYER " + e);
     }
-    onCollision  = function(e) {
+    onCollision(e) {
         //console.log("e.onCollision: ID.PLAYER " +e.objA.id +" " + e.objB.idx);
     }
 }

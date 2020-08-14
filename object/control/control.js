@@ -76,11 +76,10 @@ class CONTROL extends Frame {
     } 
     constructor(id,state,x,y,images){
         super(id,state,x,y,images);
-        this.isClick = false;
         this.isOffset = false;
     }
     onKeydown = function(e) { 
-        //console.log("e.onKey: ID.CONTROL " + e.keyCode);
+        console.log("e.onKey: ID.CONTROL " + e.keyCode);
         switch (e.keyCode){
             case KEY.LEFT:
                 if(e.state == CONTROL.LEFT)this.lightup = 2;
@@ -108,15 +107,15 @@ class CONTROL extends Frame {
             break;          
         }
     }
-    onMousedown = function(mouseEvent) {
+    onMousedown(e) {
         var mouseFrame = new Frame();
-        mouseFrame.x=mouseEvent.offsetX / screen.scale;
-        mouseFrame.y=mouseEvent.offsetY / screen.scale;
+        mouseFrame.x=e.offsetX / screen.scale;
+        mouseFrame.y=e.offsetY / screen.scale;
         mouseFrame.w = 10;
         mouseFrame.h = 10;
 
-        // console.log(this.id , this.x ,this.y , this.image.width , this.image.height);
-        // console.log(mouseFrame.x,mouseFrame.y , mouseFrame.w , mouseFrame.h);
+        //console.log(this.id , this.x ,this.y , this.image.width , this.image.height);
+        //console.log(mouseFrame.x,mouseFrame.y , mouseFrame.w , mouseFrame.h);
         
         if(this.collision.isCheckRect(this,mouseFrame)){
             this.isClick = this.getKeyboardEvent(this.id);
@@ -124,11 +123,11 @@ class CONTROL extends Frame {
         } 
     }
 
-    onMouseup = function(mouseEvent) {
+    onMouseup(e) {
         this.isClick = null;
     }
 
-    onDraw  = function(e) {
+    onDraw() {
         if(this.isClick){
             objects.onKeydown(this.isClick);
             this.lightup = 2; 

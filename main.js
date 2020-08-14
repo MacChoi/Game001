@@ -27,7 +27,7 @@ function main() {
 
 function update() {
 	var start = new Date().getTime();
-	screen.push();
+	screen.draw();
 	var delay = new Date().getTime() - start ;
 	setTimeout(this.update, UPDATE_DELAY - delay);
 }
@@ -39,5 +39,5 @@ window.onresize = function(event) {
 File.appendLoading();
 File.onLoading = function (count){
 	if(count==10)File.removeLoading();
-	console.log("onLoading :" +count);
+	// console.log("onLoading :" +count);
 };
